@@ -1,0 +1,32 @@
+git clone https://github.com/hpn-bristol/kubeFlower
+
+cd kubeFlower
+
+docker build -t kubeflower .
+
+docker images
+
+kubectl apply -f descriptors/serverService.yaml
+
+kubectl apply -f descriptors/serverDeploy.yaml
+
+kubectl get all -owide
+
+kubectl apply -f descriptors/clientDeploy.yaml
+
+kubectl get all
+-----------------------------------------------------------
+
+## Check the logs on the flower-server pod.
+
+kubectl logs flower-server-64f78b8c5c-kwf89 -f
+
+## Open a new terminal and check the logs on the flower-client pods. Repeat the process if required for the different clients.
+
+kubectl logs flower-client-7c69c8c776-cjw6r -f
+-----------------------------------------------------------
+## After the FL process has finished, kill the pods and services, and stop the K8s cluster on minikube.
+
+kubectl delete deploy flower-client flower-server
+
+kubectl delete service service-server
